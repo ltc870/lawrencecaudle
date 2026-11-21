@@ -1,0 +1,68 @@
+# NEW file: .github/workflows/ci.yml
+# Runs on every pull request into main (opened, and each new push to the PR's branch).
+# main itself only ever changes by merging a pull request that passed these checks.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  # REMOVED: push to main trigger. main is never pushed to directly, so CI runs only on pull requests.
+
+# Read-only token. nx-set-shas reads past workflow runs through the GitHub API.
+permissions:
+  contents: read
+  actions: read
+
+# A newer push to the same branch cancels the older run that is still going.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend (Nx)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo with full history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # Nx affected compares against main, so it needs the history
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies from the lock file
+        run: npm ci
+
+      - name: Work out the base and head commits for nx affected
+        uses: nrwl/nx-set-shas@v5
+        with:
+          main-branch-name: main
+
+      - name: Lint, test and build the affected projects
+        run: npx nx affected -t lint test build
+
+  backend:
+    name: Backend (.NET)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v7
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore NuGet packages
+        run: dotnet restore api/LawrenceCaudle.Blog.slnx
+
+      - name: Build
+        run: dotnet build api/LawrenceCaudle.Blog.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test api/LawrenceCaudle.Blog.slnx --configuration Release --no-build
