@@ -1,4 +1,6 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# CHANGED: one file for the whole repo. Patterns without a slash match in any folder;
+# patterns that start with frontend/ or backend/ match only there.
 
 # compiled output
 dist
@@ -25,22 +27,25 @@ node_modules
 !.vscode/extensions.json
 
 # misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
+# CHANGED: these were anchored to the repo root, where the Nx workspace used to be
+frontend/.sass-cache
+frontend/connect.lock
+frontend/coverage
+frontend/libpeerconnection.log
 npm-debug.log
 yarn-error.log
 testem.log
-/typings
+frontend/typings
 
 # System Files
 .DS_Store
 Thumbs.db
 
-.nx/cache
-.nx/workspace-data
-.nx/migrate-runs
+# CHANGED: a pattern with a slash in it is relative to this file, so these
+# now name the Nx folders inside frontend/
+frontend/.nx/cache
+frontend/.nx/workspace-data
+frontend/.nx/migrate-runs
 .claude/worktrees
 .claude/settings.local.json
 
@@ -50,7 +55,7 @@ __screenshots__/
 vitest.config.*.timestamp*
 .vitest
 
-# NEW: .NET build output (every project under api/ gets these when it builds)
+# NEW: .NET build output (every project under backend/ gets these when it builds) -- CHANGED: was api/
 bin/
 obj/
 

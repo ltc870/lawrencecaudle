@@ -23,6 +23,10 @@ jobs:
   frontend:
     name: Frontend (Nx)
     runs-on: ubuntu-latest
+    # NEW: the Nx workspace lives in frontend/, so every run step starts there
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - name: Check out the repo with full history
         uses: actions/checkout@v7
@@ -34,6 +38,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          cache-dependency-path: frontend/package-lock.json # NEW: the lock file moved into frontend/
 
       - name: Install dependencies from the lock file
         run: npm ci
@@ -48,6 +53,10 @@ jobs:
 
   backend:
     name: Backend (.NET)
+    # NEW: the .NET solution lives in backend/ (was api/)
+    defaults:
+      run:
+        working-directory: backend
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -59,10 +68,10 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore NuGet packages
-        run: dotnet restore api/LawrenceCaudle.Blog.slnx
+        run: dotnet restore LawrenceCaudle.Blog.slnx # CHANGED: path is relative to backend/
 
       - name: Build
-        run: dotnet build api/LawrenceCaudle.Blog.slnx --configuration Release --no-restore
+        run: dotnet build LawrenceCaudle.Blog.slnx --configuration Release --no-restore # CHANGED
 
       - name: Test
-        run: dotnet test api/LawrenceCaudle.Blog.slnx --configuration Release --no-build
+        run: dotnet test LawrenceCaudle.Blog.slnx --configuration Release --no-build # CHANGED
