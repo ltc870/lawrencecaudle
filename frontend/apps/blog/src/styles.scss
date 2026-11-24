@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+
+// NEW: the lc-ui shared layer (fonts, tokens, global, unported), loaded once
+// for the whole app. Roadmap decision 21. Page-only styles for this app go
+// below this line.
+@use '../../../libs/ui/src/styles/lc-ui';

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [RouterModule], // CHANGED: NxWelcome removed with the generated welcome page
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

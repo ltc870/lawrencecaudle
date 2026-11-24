@@ -1,0 +1,144 @@
+/* ==========================================================================
+   lc-ui design tokens  //  blog.lawrencecaudle.com
+   Shared by the blog and the main site. Lives in libs/ui/src/styles/tokens.css
+   in the Nx monorepo; loaded once per app through lc-ui.scss.
+   Dark-first. Yellow is a signal color: keep it to roughly 10% of a screen.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* -- Brand palette (the four colors) ----------------------------------- */
+  --lc-primary: #f2b705; /* signal yellow        ~ tailwind yellow-500 */
+  --lc-surface: #1b1b1e; /* neutral surface      ~ tailwind zinc-900   */
+  --lc-accent: #ff9f1c; /* ember orange         ~ tailwind orange-400 */
+  --lc-bg: #0e0e0c; /* deep dark background ~ tailwind zinc-950   */
+
+  /* -- Derived neutrals (no new hues) ------------------------------------ */
+  --lc-text: #f2f2ee; /* headings, high emphasis   17:1 on bg */
+  --lc-text-body: #c7c9ce; /* body copy                 11.6:1 on bg */
+  --lc-text-muted: #8a8d94; /* meta, captions            5.6:1 on bg, 4.6:1 on surface-2 */
+  --lc-on-primary: #0e0e0c; /* the only text color on yellow, 10.6:1 */
+  --lc-primary-text: #f7d46a; /* yellow tint for inline code */
+
+  --lc-surface-2: #232327; /* inputs, code, modals, hovered cards */
+  --lc-surface-3: #2a2a2f; /* pressed / selected rows */
+  --lc-border: rgba(255, 255, 255, 0.06);
+  --lc-border-strong: rgba(255, 255, 255, 0.11);
+  --lc-border-hot: rgba(242, 183, 5, 0.45);
+
+  --lc-tint: rgba(242, 183, 5, 0.06); /* Surface 1 corner tint */
+  --lc-primary-soft: rgba(242, 183, 5, 0.12); /* chip and status fills */
+  --lc-ring: rgba(242, 183, 5, 0.18); /* input focus ring */
+  --lc-accent-glow: rgba(255, 159, 28, 0.5); /* hover glow */
+
+  /* Functional: destructive only. Warm red kept in the ember family. */
+  --lc-danger: #f26b5b;
+  --lc-danger-text: #ff8a7a; /* 6.8:1 on surface-2 */
+  --lc-danger-soft: rgba(242, 107, 91, 0.12);
+
+  /* -- Surface 0: page background (layered radial, never flat) ----------- */
+  --lc-bg-gradient:
+    radial-gradient(
+      900px 520px at 88% -8%,
+      rgba(242, 183, 5, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 480px at -5% 105%,
+      rgba(255, 159, 28, 0.09),
+      transparent 55%
+    ),
+    #0e0e0c;
+
+  /* -- Surface 1: cards, panels, table containers ------------------------ */
+  --lc-surface-1-fill:
+    radial-gradient(
+      420px 240px at 100% 0%,
+      rgba(242, 183, 5, 0.06),
+      transparent 70%
+    ),
+    #1b1b1e;
+
+  /* -- Elevation (shadows use warm near-black, never #000) --------------- */
+  --lc-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --lc-shadow-1:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(6, 6, 5, 0.5),
+    0 14px 32px -18px rgba(6, 6, 5, 0.8);
+  --lc-shadow-2:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(6, 6, 5, 0.5),
+    0 22px 44px -18px rgba(6, 6, 5, 0.9);
+  --lc-shadow-3:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 30px 80px -20px rgba(6, 6, 5, 0.95);
+  --lc-glow: 0 10px 28px -10px rgba(255, 159, 28, 0.55);
+
+  /* -- Radius ------------------------------------------------------------- */
+  --lc-radius-control: 12px; /* inputs, buttons */
+  --lc-radius-inner: 14px; /* code blocks, media inside cards */
+  --lc-radius-card: 20px; /* cards, modals */
+  --lc-radius-pill: 9999px; /* chips */
+
+  /* -- Spacing ------------------------------------------------------------ */
+  --lc-space-1: 0.25rem;
+  --lc-space-2: 0.5rem;
+  --lc-space-3: 0.75rem;
+  --lc-space-4: 1rem;
+  --lc-space-5: 1.5rem;
+  --lc-space-6: 2rem;
+  --lc-space-8: 3rem;
+  --lc-space-10: 4rem;
+  --lc-space-12: 6rem;
+  --lc-section-y: clamp(4rem, 8vw, 6rem);
+  --lc-gap: 1.5rem;
+  --lc-gap-lg: 2rem;
+  --lc-card-pad: 2rem;
+  --lc-gutter-x: clamp(1rem, 4vw, 2.5rem);
+  --lc-container: 1200px;
+  --lc-reading: 68ch;
+
+  /* -- Type --------------------------------------------------------------- */
+  --lc-font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --lc-font-label: 'Share Tech Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --lc-font-code: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+  /* Ligatures and contextual alternates off: "->" and "=>" stay literal. */
+  --lc-font-features: 'liga' 0, 'calt' 0, 'dlig' 0;
+
+  --lc-fs-display: clamp(40px, 5.2vw, 64px);
+  --lc-fs-h1: clamp(30px, 3.6vw, 40px);
+  --lc-fs-h2: clamp(24px, 2.6vw, 28px);
+  --lc-fs-h3: 20px;
+  --lc-fs-lead: clamp(17px, 1.6vw, 20px);
+  --lc-fs-body: 18px;
+  --lc-fs-ui: 15px;
+  --lc-fs-label: 13px;
+  --lc-fs-code: 14px;
+  --lc-fw-head: 800;
+  --lc-fw-body: 400;
+  --lc-lh-tight: 1.1;
+  --lc-lh-body: 1.75;
+  --lc-tracking-tight: -0.02em;
+
+  /* -- Motion ------------------------------------------------------------- */
+  --lc-duration: 0.2s;
+  --lc-ease: ease-in-out;
+  --lc-lift: -2px;
+
+  /* -- Layers ------------------------------------------------------------- */
+  --lc-z-nav: 40;
+  --lc-z-progress: 50;
+  --lc-z-modal: 60;
+  --lc-z-toast: 70;
+
+  /* NEW: portfolio additions (from the portfolio canvas's lc-portfolio.css) */
+  --lc-accent-soft: rgba(255, 159, 28, 0.12); /* in-progress status fill */
+  /* in-progress status border, now-panel "ongoing" tag */
+  --lc-accent-line: rgba(255, 159, 28, 0.36);
+  --lc-readout-grid: rgba(255, 255, 255, 0.03); /* now-panel scan lines */
+}
+
+@media (max-width: 640px) {
+  :root {
+    --lc-card-pad: 1.5rem;
+    --lc-fs-body: 17px;
+  }
+}

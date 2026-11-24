@@ -42,7 +42,13 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/blog/src/app/dev.routes.ts",
+              "with": "apps/blog/src/app/dev.routes.development.ts"
+            }
+          ]
         }
       }
     },

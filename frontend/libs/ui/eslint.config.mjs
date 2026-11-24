@@ -12,7 +12,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'lib',
+          prefix: 'lc', // CHANGED: was 'lib'; lc-ui directives are lcSomething
           style: 'camelCase',
         },
       ],
@@ -20,7 +20,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'lib',
+          prefix: 'lc', // CHANGED: was 'lib'; lc-ui components are lc-something
           style: 'kebab-case',
         },
       ],

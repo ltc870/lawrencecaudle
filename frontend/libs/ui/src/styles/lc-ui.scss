@@ -1,0 +1,11 @@
+// ==========================================================================
+// lc-ui entry  //  roadmap decision 21
+// Each app's global styles.scss loads this file once, and nothing else loads
+// the shared layer. Order matters: fonts, then tokens, then the rules that
+// use them. _breakpoints.scss is not loaded here; component SCSS @uses it.
+// ==========================================================================
+
+@use 'fonts';
+@use 'tokens';
+@use 'global';
+@use 'unported';

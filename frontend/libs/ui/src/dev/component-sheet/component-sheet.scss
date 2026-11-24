@@ -1,0 +1,119 @@
+// ==========================================================================
+// Component sheet layout  //  dev-only page (roadmap decision 24)
+// CHANGED: replaces the generator's empty file. These classes arrange the examples on the sheet; they are not
+// part of lc-ui, so they use a sheet- prefix and live only here. Angular's
+// emulated encapsulation scopes them to this component's template.
+// The examples themselves use the real global lc-* classes, unchanged.
+// ==========================================================================
+
+@use '../../styles/breakpoints' as breakpoints;
+
+:host {
+  display: block;
+}
+
+// The page: same width and gutters as real pages.
+.sheet {
+  padding-block: var(--lc-space-10) var(--lc-space-12);
+}
+
+// Title block at the top of the sheet.
+.sheet-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-4);
+  max-width: 820px;
+  padding-bottom: var(--lc-space-8);
+}
+
+// One section per family of classes (type, buttons, chips ...).
+.sheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-5);
+  padding-block: var(--lc-space-8);
+  border-top: 1px solid var(--lc-border);
+}
+
+// Section title on the left, the classes it covers on the right.
+.sheet-section__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--lc-space-2) var(--lc-space-5);
+}
+
+// A row of examples that wraps on narrow screens.
+.sheet-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--lc-space-5);
+}
+
+// One example: a small caption above the thing it shows.
+.sheet-example {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; // CHANGED: examples keep their real width instead of stretching to the caption
+  gap: var(--lc-space-3);
+  min-width: 0;
+}
+
+// The caption itself (pair with .lc-meta for the font and color).
+.sheet-caption {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11.5px;
+}
+
+// A narrow box, for showing block-level things like .lc-btn--block.
+.sheet-narrow {
+  width: min(320px, 100%);
+  align-items: stretch; // NEW: block buttons and the segmented control fill this box on purpose
+}
+
+// The type scale: each style on its own line, with its class name beside it.
+.sheet-type {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--lc-space-4) var(--lc-space-6);
+
+  @include breakpoints.below(breakpoints.$width-640) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--lc-space-2);
+  }
+}
+
+// Padding for a bare .lc-surface-2 example (cards bring their own).
+.sheet-padded {
+  padding: var(--lc-card-pad);
+}
+
+// Skeleton shapes for the post card example, sized like the real card.
+.sheet-skel-media {
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
+}
+
+.sheet-skel-chip {
+  width: 96px;
+  height: 26px;
+  border-radius: var(--lc-radius-pill);
+}
+
+.sheet-skel-title {
+  width: 76%;
+  height: 22px;
+}
+
+.sheet-skel-line {
+  width: 100%;
+  height: 14px;
+}
+
+.sheet-skel-line--short {
+  width: 60%;
+}
