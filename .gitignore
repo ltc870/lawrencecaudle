@@ -11,7 +11,8 @@ out-tsc
 node_modules
 
 # IDEs and editors
-/.idea
+# CHANGED: was /.idea, which only matched the repo root; .idea/ matches Rider's folder anywhere (backend/.idea)
+.idea/
 .project
 .classpath
 .c9/

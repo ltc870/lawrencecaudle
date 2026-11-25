@@ -1,4 +1,4 @@
-# NEW file: .github/workflows/ci.yml
+# CI for the portfolio, blog, and API
 # Runs on every pull request into main (opened, and each new push to the PR's branch).
 # main itself only ever changes by merging a pull request that passed these checks.
 
@@ -7,12 +7,11 @@ name: CI
 on:
   pull_request:
     branches: [main]
-  # REMOVED: push to main trigger. main is never pushed to directly, so CI runs only on pull requests.
+  # No push trigger: main only changes by merging a pull request.
 
-# Read-only token. nx-set-shas reads past workflow runs through the GitHub API.
+# Read-only token: the jobs only need to read the repo.
 permissions:
   contents: read
-  actions: read
 
 # A newer push to the same branch cancels the older run that is still going.
 concurrency:
@@ -21,39 +20,41 @@ concurrency:
 
 jobs:
   frontend:
-    name: Frontend (Nx)
+    name: Frontend
     runs-on: ubuntu-latest
-    # NEW: the Nx workspace lives in frontend/, so every run step starts there
+    # The Angular workspace lives in frontend/, so every run step starts there
     defaults:
       run:
         working-directory: frontend
     steps:
-      - name: Check out the repo with full history
+      - name: Check out the repo
         uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # Nx affected compares against main, so it needs the history
-
+        
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: frontend/package-lock.json # NEW: the lock file moved into frontend/
+          cache-dependency-path: frontend/package-lock.json # the lock file lives in frontend/
 
       - name: Install dependencies from the lock file
         run: npm ci
 
-      - name: Work out the base and head commits for nx affected
-        uses: nrwl/nx-set-shas@v5
-        with:
-          main-branch-name: main
+      - name: Test the portfolio
+        run: npx ng test portfolio --no-watch
 
-      - name: Lint, test and build the affected projects
-        run: npx nx affected -t lint test build
+      - name: Test the blog
+        run: npx ng test blog --no-watch
+
+      - name: Build the portfolio
+        run: npx ng build portfolio
+
+      - name: Build the blog
+        run: npx ng build blog
 
   backend:
-    name: Backend (.NET)
-    # NEW: the .NET solution lives in backend/ (was api/)
+    name: Backend
+    # The .NET solution lives in backend/, so every run step starts there.
     defaults:
       run:
         working-directory: backend
@@ -68,10 +69,10 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore NuGet packages
-        run: dotnet restore LawrenceCaudle.Blog.slnx # CHANGED: path is relative to backend/
+        run: dotnet restore LawrenceCaudle.Blog.slnx 
 
       - name: Build
-        run: dotnet build LawrenceCaudle.Blog.slnx --configuration Release --no-restore # CHANGED
+        run: dotnet build LawrenceCaudle.Blog.slnx --configuration Release --no-restore 
 
       - name: Test
-        run: dotnet test LawrenceCaudle.Blog.slnx --configuration Release --no-build # CHANGED
+        run: dotnet test LawrenceCaudle.Blog.slnx --configuration Release --no-build 
